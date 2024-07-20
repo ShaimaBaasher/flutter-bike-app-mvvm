@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "838632393551",
+    "firebase_url": "https://shaima-dac76.firebaseio.com",
+    "project_id": "shaima-dac76",
+    "storage_bucket": "shaima-dac76.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838632393551:android:cc84961155a414a713533a",
+        "android_client_info": {
+          "package_name": "com.bike_app.www.bike_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838632393551-h8igdoo70a0lppmv3e553rnv7ni2v445.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEw9cpVfP-h6fm0dEtclawuG7D_sByVOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838632393551-h8igdoo70a0lppmv3e553rnv7ni2v445.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "838632393551-2r789iub1t3ra92i91d1910kt32mqoif.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fekra.Login"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838632393551:android:dfb584b1f7d0d81213533a",
+        "android_client_info": {
+          "package_name": "com.shopping_cart.shopping_cart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838632393551-h8igdoo70a0lppmv3e553rnv7ni2v445.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEw9cpVfP-h6fm0dEtclawuG7D_sByVOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838632393551-h8igdoo70a0lppmv3e553rnv7ni2v445.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "838632393551-2r789iub1t3ra92i91d1910kt32mqoif.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fekra.Login"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

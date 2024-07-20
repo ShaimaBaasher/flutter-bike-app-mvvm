@@ -1,0 +1,1 @@
+const LOGGED = 'logged';
