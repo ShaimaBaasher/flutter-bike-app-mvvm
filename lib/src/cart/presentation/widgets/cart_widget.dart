@@ -2,8 +2,11 @@ import 'package:bike_app/core/theme/size_utils.dart';
 import 'package:bike_app/core/theme/styles.dart';
 import 'package:bike_app/src/home/data/models/product_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/custom_image_view.dart';
+import '../../../../core/utils/enums.dart';
+import '../../../products_detials/presentation/bloc/product_detials_bloc.dart';
 
 class CartItemWidget extends StatelessWidget {
   const CartItemWidget({
@@ -18,11 +21,14 @@ class CartItemWidget extends StatelessWidget {
     return Dismissible(
         key: Key(model.id.toString()),
         onDismissed: (direction) {
-
+          context.read<ProductDetialsBloc>().add(
+              UpdateCartQtyEvent(
+                  product: model!,
+                  counterEvent: CounterEvent.decrement));
         },
         child: Container(width: width ,
-          padding: EdgeInsets.all(10),
-          margin: EdgeInsets.all(2),
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.0),
@@ -47,7 +53,7 @@ class CartItemWidget extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8 ,
                   ),
                   Column(
