@@ -50,13 +50,11 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
-          print('state>>$state');
           if (state is HomeErrorState) {
             showNormalSnakbar(context, state.model, isSuccess: false);
           }
           if (state is GetCatState) {
             catModelList = state.list.requestList;
-            print('catModelList>>${catModelList!.length}');
           }
           if (state is GetProductsState) {
             productList = state.list?.requestList;
@@ -213,7 +211,6 @@ class _HomeState extends State<Home> {
                                   horizontal: 8.0),
                               child: Container(
                                 width: width,
-                                height: MediaQuery.of(context).size.height - 300,
                                 child: AlignedGridView.count(
                                   itemCount:
                                   productList!.length,
