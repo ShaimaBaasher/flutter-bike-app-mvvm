@@ -76,8 +76,7 @@ class APISRepo {
       // Return the cached response if it exists
       print("Returning cached response for key: $key");
       try {
-        print('cachedResponse.body>>${cachedResponse.body}');
-        return cachedResponse.body;
+        return json.decode(cachedResponse.body);
       } catch (e) {
         print("Error decoding cached response: $e");
         throw ApiException(message: "Error decoding cached response", statusCode: 500);
@@ -107,7 +106,7 @@ class APISRepo {
       await cache.set(key, response);
       print("Caching new response for key: $key");
       try {
-        return response.body;
+        return json.decode(response.body);
       } catch (e) {
         print("Error decoding network response: $e");
         throw ApiException(message: "Error decoding network response", statusCode: 500);
@@ -119,7 +118,7 @@ class APISRepo {
       if (cachedResponse != null) {
         print("Network error, returning cached response for key: $key");
         try {
-          return cachedResponse.body;
+          return json.decode(cachedResponse.body);
         } catch (e) {
           print("Error decoding cached response: $e");
           throw ApiException(message: "Error decoding cached response", statusCode: 500);
@@ -130,13 +129,11 @@ class APISRepo {
     }
   }
 
-
   String generateCacheKey(String url, Map<String, String> headers) {
     final sortedHeaders = headers.entries.toList()
       ..sort((a, b) => a.key.compareTo(b.key));
     final headersString = sortedHeaders.map((entry) => '${entry.key}:${entry.value}').join('&');
     return '$url?$headersString';
   }
-
 
 }
