@@ -76,7 +76,7 @@ class APISRepo {
       // Return the cached response if it exists
       print("Returning cached response for key: $key");
       try {
-        return json.decode(cachedResponse.body);
+        return cachedResponse.body;
       } catch (e) {
         print("Error decoding cached response: $e");
         throw ApiException(message: "Error decoding cached response", statusCode: 500);
@@ -106,7 +106,7 @@ class APISRepo {
       await cache.set(key, response);
       print("Caching new response for key: $key");
       try {
-        return json.decode(response.body);
+        return response.body;
       } catch (e) {
         print("Error decoding network response: $e");
         throw ApiException(message: "Error decoding network response", statusCode: 500);
@@ -118,7 +118,7 @@ class APISRepo {
       if (cachedResponse != null) {
         print("Network error, returning cached response for key: $key");
         try {
-          return json.decode(cachedResponse.body);
+          return cachedResponse.body;
         } catch (e) {
           print("Error decoding cached response: $e");
           throw ApiException(message: "Error decoding cached response", statusCode: 500);
