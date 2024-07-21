@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:bike_app/core/network/end_points.dart';
 import 'package:bike_app/src/home/data/models/cat_model.dart';
 import 'package:dartz/dartz.dart';
-
 import '../../../../core/network/api_helper.dart';
 import '../../../../core/network/errors/exceptions.dart';
 import '../../../../core/network/errors/failure.dart';
