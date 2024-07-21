@@ -1,31 +1,49 @@
+name: Build and Release Debug APK
+
 on:
   push:
     branches:
-     - master
-
-name: Build My App
+      - master
 
 jobs:
   build:
-    name: Build and Release new apk
+    name: Build and Release Debug APK
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '11'
 
-      - uses: subosito/flutter-action@v2
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build apk --debug
 
-          #      - run: flutter build apk --debug --split-per-abi
-      - name: Push to release
-        uses: ncipollo/release-action@v1
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --debug
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         with:
-          artifacts: "build/app/outputs/apk/debug/*"
-          tag: v0.0.2
-          token: ${{ secrets.TOKEN }}
+          tag_name: v0.0.2
+          release_name: Release v0.0.2
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload APK to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/app/outputs/flutter-apk/app-debug.apk
+          asset_name: app-debug.apk
+          asset_content_type: application/vnd.android.package-archive
