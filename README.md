@@ -1,6 +1,6 @@
 # bike_app
 
-A new Flutter project Flutter MVVM + CI | CD for uploading apk in git releases section .
+A new Flutter project Flutter MVVM + CI | CD for uploading apk in GitHub releases section .
 
 ## Implemented by MVVM
 The following project is structured with :
@@ -13,7 +13,7 @@ The following project is structured with :
 - Get list of product and categories  .
 - Get product detials .
 - Add and remove product to cart .
-- offline mode 
+- caching 
 
 ## Scenario
 Used https://api.escuelajs.co/api/v1/products and https://api.escuelajs.co/api/v1/categories as a public api 
