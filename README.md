@@ -1,6 +1,6 @@
 # bike_app
 
-A new Flutter project Flutter MVVM + CI | CD for uploading apk in GitHub releases section .
+A new Flutter project Flutter MVVM + CI | CD for uploading apk  .
 
 # App Link :
 
