@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 
+import 'package:get_it/get_it.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
 
 import 'cache.dart';
@@ -16,9 +17,9 @@ class APISRepo {
 
   APISRepo(this.clientHttp, this.cache, this.apiUrl);
 
-  InterceptedClient client = InterceptedClient.build(
-    interceptors: [LoggingInterceptor()],
-  );
+  // InterceptedClient client = InterceptedClient.build(
+  //   interceptors: [LoggingInterceptor()],
+  // );
 
   Future<dynamic> postRequest(
       {required String apiUrl,
@@ -37,10 +38,10 @@ class APISRepo {
       http.Response response;
 
       if (isPutMethod) {
-        response = await client.put(Uri.parse(apiUrl),
+        response = await clientHttp.put(Uri.parse(apiUrl),
             body: json.encode(params), headers: headers);
       } else {
-        response = await client
+        response = await clientHttp
             .post(Uri.parse(apiUrl),
                 body: json.encode(paramsList ?? params), headers: headers);
       }
@@ -57,19 +58,30 @@ class APISRepo {
     }
   }
 
+
   Future<dynamic> getRequest({
     required String apiUrl,
     required Map<String, String> headers,
     String? urlName,
   }) async {
+    final clientHttp = GetIt.instance<http.Client>();
+    final cache = GetIt.instance<Cache>();
+
     final uri = Uri.parse(apiUrl);
-    final key = uri.toString() + headers.toString();
+    final key = generateCacheKey(apiUrl, headers);
 
     // Check if we have a cached response
     final cachedResponse = await cache.get(key);
     if (cachedResponse != null) {
       // Return the cached response if it exists
-      return json.decode(cachedResponse.response.body);
+      print("Returning cached response for key: $key");
+      try {
+        print('cachedResponse.body>>${cachedResponse.body}');
+        return cachedResponse.body;
+      } catch (e) {
+        print("Error decoding cached response: $e");
+        throw ApiException(message: "Error decoding cached response", statusCode: 500);
+      }
     }
 
     Map<String, String> params = {
@@ -81,30 +93,50 @@ class APISRepo {
     }
 
     try {
-      var response = await client.get(Uri.parse(apiUrl), headers: params);
+      var response = await clientHttp.get(Uri.parse(apiUrl), headers: params);
 
       if (response.statusCode == 401) {
-        // Handle unauthorized access (e.g., refresh token, re-authenticate)
+        throw ApiException(message: "Unauthorized access", statusCode: 401);
       }
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        throw ApiException(
-            message: response.body, statusCode: response.statusCode);
+        throw ApiException(message: response.body, statusCode: response.statusCode);
       }
 
       // Cache the new response
       await cache.set(key, response);
-      return response.body;
+      print("Caching new response for key: $key");
+      try {
+        return response.body;
+      } catch (e) {
+        print("Error decoding network response: $e");
+        throw ApiException(message: "Error decoding network response", statusCode: 500);
+      }
     } on ApiException {
       rethrow;
     } catch (e) {
       // If network error occurs, return cached data if available
       if (cachedResponse != null) {
-        return json.decode(cachedResponse.response.body);
+        print("Network error, returning cached response for key: $key");
+        try {
+          return cachedResponse.body;
+        } catch (e) {
+          print("Error decoding cached response: $e");
+          throw ApiException(message: "Error decoding cached response", statusCode: 500);
+        }
       } else {
-        throw ApiException(message: e.toString(), statusCode: 505);
+        throw ApiException(message: "Network error and no cached data available", statusCode: 505);
       }
     }
   }
+
+
+  String generateCacheKey(String url, Map<String, String> headers) {
+    final sortedHeaders = headers.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    final headersString = sortedHeaders.map((entry) => '${entry.key}:${entry.value}').join('&');
+    return '$url?$headersString';
+  }
+
 
 }

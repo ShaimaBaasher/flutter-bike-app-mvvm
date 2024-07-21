@@ -27,7 +27,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     var response = await _homeRepo.getNewRequestList();
     response.fold((failure) {
       return emit(HomeErrorState(failure.errorMessage));
-    }, (res) => emit(GetProductsState(list: res)));
+    }, (res) {
+      emit(GetProductsState(list: res));
+    });
   }
 
   Future<void> _getCatListHandler(
