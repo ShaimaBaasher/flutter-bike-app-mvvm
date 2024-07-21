@@ -13,7 +13,7 @@ The following project is structured with :
 - Get list of product and categories  .
 - Get product detials .
 - Add and remove product to cart .
-- offline mode 
+- caching 
 
 ## Scenario
 Used https://api.escuelajs.co/api/v1/products and https://api.escuelajs.co/api/v1/categories as a public api 
