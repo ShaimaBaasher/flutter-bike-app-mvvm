@@ -213,7 +213,6 @@ class _HomeState extends State<Home> {
                                   horizontal: 8.0),
                               child: Container(
                                 width: width,
-                                height: MediaQuery.of(context).size.height - 300,
                                 child: AlignedGridView.count(
                                   itemCount:
                                   productList!.length,
